@@ -1,0 +1,162 @@
+2704. To Be Or Not To Be
+Solved
+Easy
+premium lock icon
+Companies
+Write a function expect that helps developers test their code. It should take in any value val and return an object with the following two functions.
+
+toBe(val) accepts another value and returns true if the two values === each other. If they are not equal, it should throw an error "Not Equal".
+notToBe(val) accepts another value and returns true if the two values !== each other. If they are equal, it should throw an error "Equal".
+ 
+
+Example 1:
+
+Input: func = () => expect(5).toBe(5)
+Output: {"value": true}
+Explanation: 5 === 5 so this expression returns true.
+Example 2:
+
+Input: func = () => expect(5).toBe(null)
+Output: {"error": "Not Equal"}
+Explanation: 5 !== null so this expression throw the error "Not Equal".
+Example 3:
+
+Input: func = () => expect(5).notToBe(null)
+Output: {"value": true}
+Explanation: 5 !== null so this expression returns true.
+
+var compose = function(functions) {
+    return function(x) {
+        let result = x;
+        for (let i = functions.length - 1; i >= 0; i--) {
+            result = functions[i](result);
+        }
+        return result;
+    };
+};
+
+
+
+
+1️⃣ Closures
+
+What it is:
+A closure is when an inner function “remembers” variables from its outer function, even after the outer function has finished executing.
+
+In your code:
+
+var expect = function(val) {
+    return {
+        toBe: function(expected) {
+            if (val === expected) { return true; }
+            throw "Not Equal";
+        }
+    }
+}
+
+
+val is defined in the outer function expect.
+
+The inner function toBe can still access val, even after expect has returned.
+
+This is a closure.
+
+Example simplified:
+
+function outer(x) {
+    return function inner(y) {
+        return x + y;
+    };
+}
+
+let add5 = outer(5);
+console.log(add5(3)); // 8
+
+
+✅ Just like toBe remembers val.
+
+2️⃣ Functions returning objects
+
+expect(val) returns an object with methods toBe and notToBe.
+
+This allows you to do:
+
+expect(5).toBe(5);
+
+
+Without returning an object, you wouldn’t be able to “chain” the next method.
+
+Simpler example:
+
+function createObj(x) {
+    return {
+        print: function() { console.log(x); }
+    }
+}
+
+let obj = createObj(10);
+obj.print(); // 10
+
+3️⃣ Method chaining / Fluent API
+
+Because expect(val) returns an object, you can immediately call a method on it.
+
+This is called a fluent API (common in testing libraries like Jest).
+
+expect(5).toBe(5);
+expect(5).notToBe(3);
+
+
+Think of it as: “Give me something to test, then call methods on it.”
+
+4️⃣ Error handling with throw
+
+Instead of returning false when a check fails, the code throws an error:
+
+throw "Not Equal";
+
+
+In real testing libraries, this stops the test and marks it as failed.
+
+This is why:
+
+expect(5).notToBe(5); // throws "Equal"
+
+
+If the expectation passes, it returns true (or nothing, in real libraries).
+
+5️⃣ Custom assertion logic (testing concept)
+
+You are essentially building a mini testing library.
+
+expect() + .toBe() is exactly like Jest or Mocha assertions:
+
+expect(actualValue).toBe(expectedValue);
+expect(actualValue).notToBe(expectedValue);
+
+
+This pattern is called “assertion library”.
+
+6️⃣ Putting it all together
+expect(5).toBe(5);      // ✔ passes
+expect(5).notToBe(5);   // ❌ throws error
+
+
+expect(5) → returns an object (concept: function returns object)
+
+.toBe(5) → uses closure to access 5 inside expect
+
+.notToBe(5) → uses throw to indicate failure
+
+Fluent syntax → method chaining / readable API
+
+🔑 Key concepts learned
+Concept	What it teaches	Example in code
+Closure	Inner functions remember outer variables	toBe remembers val
+Function returns object	Lets you create a chainable API	expect(val) returns { toBe, notToBe }
+Method chaining / Fluent API	Call multiple methods sequentially	expect(5).toBe(5)
+Throw / error handling	Stop execution when expectation fails	throw "Not Equal"
+Custom testing/assertion	Build mini testing libraries	Jest-like assertions
+
+💡 Extra tip:
+This pattern is exactly what professional testing frameworks like Jest, Mocha, or Chai use internally. You just learned the core idea of writing your own testing functions!
