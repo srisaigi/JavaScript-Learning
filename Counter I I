@@ -1,0 +1,265 @@
+2665. Counter II
+Solved
+Easy
+premium lock icon
+Companies
+Hint
+Write a function createCounter. It should accept an initial integer init. It should return an object with three functions.
+
+The three functions are:
+
+increment() increases the current value by 1 and then returns it.
+decrement() reduces the current value by 1 and then returns it.
+reset() sets the current value to init and then returns it.
+ 
+
+Example 1:
+
+Input: init = 5, calls = ["increment","reset","decrement"]
+Output: [6,5,4]
+Explanation:
+const counter = createCounter(5);
+counter.increment(); // 6
+counter.reset(); // 5
+counter.decrement(); // 4
+Example 2:
+
+Input: init = 0, calls = ["increment","increment","decrement","reset","reset"]
+Output: [1,2,1,0,0]
+Explanation:
+const counter = createCounter(0);
+counter.increment(); // 1
+counter.increment(); // 2
+counter.decrement(); // 1
+counter.reset(); // 0
+counter.reset(); // 0
+ 
+
+Constraints:
+
+-1000 <= init <= 1000
+0 <= calls.length <= 1000
+calls[i] is one of "increment", "decrement" and "reset"
+
+
+/**
+ * @param {integer} init
+ * @return { increment: Function, decrement: Function, reset: Function }
+ */
+var createCounter = function(init) {
+    let curr = init;
+    return {
+        increment : function(){
+            return ++curr;
+        },
+        decrement : function(){
+            return --curr;
+        },
+        reset : function(){
+            curr = init;
+            return curr;
+        }
+    };
+};
+
+/**
+ * const counter = createCounter(5)
+ * counter.increment(); // 6
+ * counter.reset(); // 5
+ * counter.decrement(); // 4
+ */
+
+
+✅ Concepts You Learn from This Code (IMPORTANT)
+1️⃣ Closures (MOST IMPORTANT CONCEPT) 🔥
+let curr = init;
+
+What is happening?
+
+curr is created inside createCounter
+
+Inner functions (increment, decrement, reset) remember curr
+
+👉 Even after createCounter finishes execution,
+👉 curr does not get destroyed
+
+📌 This is called a closure
+
+Simple definition:
+
+A closure is when a function remembers variables from where it was created.
+
+2️⃣ Lexical Scope
+var createCounter = function(init) {
+    let curr = init;
+
+Meaning:
+
+Functions access variables based on where they are written, not where they are called
+
+All these functions:
+
+increment
+decrement
+reset
+
+
+can access:
+
+init
+curr
+
+
+📌 Because they are lexically inside createCounter.
+
+3️⃣ Data Encapsulation (Private Variables) 🔒
+let curr = init;
+
+Why is curr special?
+
+You cannot access it directly
+
+counter.curr ❌ undefined
+
+
+But you can modify it safely through functions:
+
+counter.increment() ✅
+
+
+📌 This is encapsulation
+
+Data is protected
+
+Only controlled access is allowed
+
+4️⃣ Factory Function Pattern
+var createCounter = function(init) {
+    return { ... }
+}
+
+Concept:
+
+A function that creates and returns objects
+
+Each call:
+
+createCounter(5)
+
+
+creates a new independent counter
+
+📌 This is a factory function
+
+5️⃣ State Management (Very Important in React)
+let curr = init;
+
+What is state here?
+
+curr is state
+
+It changes over time
+
+Functions:
+
+increment → updates state
+decrement → updates state
+reset → resets state
+
+
+📌 This is how state works internally in React hooks like useState
+
+6️⃣ Functions as First-Class Citizens
+return {
+    increment: function(){...},
+    decrement: function(){...},
+    reset: function(){...}
+}
+
+Meaning:
+
+Functions can be:
+
+Stored in objects
+
+Returned from functions
+
+Passed around like variables
+
+📌 JavaScript treats functions like values.
+
+7️⃣ Pre-Increment vs Post-Increment
+return ++curr;
+
+Why ++curr?
+
+Increments first
+
+Then returns updated value
+
+If it was:
+
+curr++
+
+
+It would return old value first.
+
+📌 Small but very interview-relevant detail.
+
+8️⃣ Object with Methods
+return {
+    increment(){},
+    decrement(){},
+    reset(){}
+}
+
+Concept:
+
+Object-oriented behavior without classes
+
+Methods operate on shared state
+
+📌 This is OOP without class syntax
+
+9️⃣ Immutability vs Mutability (Awareness)
+
+init → never changes
+
+curr → mutable
+
+📌 Shows how to keep original value safe while changing state.
+
+🔁 Execution Flow (Very Simple)
+const counter = createCounter(5);
+
+
+Memory created:
+
+init = 5
+curr = 5
+
+counter.increment(); // 6
+
+curr = 6
+
+counter.reset(); // 5
+
+curr = init = 5
+
+🎯 Interview One-Liner (Use This)
+
+“This code demonstrates closures, lexical scoping, encapsulation, and state management using a factory function in JavaScript.”
+
+🔥 Why this is SUPER IMPORTANT
+
+This single code connects to:
+
+React Hooks (useState)
+
+Redux
+
+Functional programming
+
+Secure APIs
+
+Interview questions
