@@ -1,0 +1,186 @@
+2635. Apply Transform Over Each Element in Array
+Solved
+Easy
+premium lock icon
+Companies
+Hint
+Given an integer array arr and a mapping function fn, return a new array with a transformation applied to each element.
+
+The returned array should be created such that returnedArray[i] = fn(arr[i], i).
+
+Please solve it without the built-in Array.map method.
+
+ 
+
+Example 1:
+
+Input: arr = [1,2,3], fn = function plusone(n) { return n + 1; }
+Output: [2,3,4]
+Explanation:
+const newArray = map(arr, plusone); // [2,3,4]
+The function increases each value in the array by one. 
+Example 2:
+
+Input: arr = [1,2,3], fn = function plusI(n, i) { return n + i; }
+Output: [1,3,5]
+Explanation: The function increases each value by the index it resides in.
+Example 3:
+
+Input: arr = [10,20,30], fn = function constant() { return 42; }
+Output: [42,42,42]
+Explanation: The function always returns 42.
+ 
+
+Constraints:
+
+0 <= arr.length <= 1000
+-109 <= arr[i] <= 109
+fn returns an integer.
+
+
+
+
+/**
+ * @param {number[]} arr
+ * @param {Function} fn
+ * @return {number[]}
+ */
+var map = function(arr, fn) {
+    let res = [];
+    for(let i=0;i<arr.length;i++){
+        res[i] = fn(arr[i],i);
+    }
+    return res;
+};
+
+
+🔑 Concepts You Learn From This Code
+1️⃣ Higher-Order Functions ⭐⭐⭐
+What it means:
+
+A function that takes another function as an argument or returns a function.
+
+In your code:
+var map = function(arr, fn) {
+
+
+fn is a function passed as a parameter
+
+map uses that function to process data
+
+➡️ This is the foundation of functional programming
+
+2️⃣ Callback Functions
+Meaning:
+
+A function that is passed into another function and called later.
+
+In your code:
+fn(arr[i], i)
+
+
+fn is executed for each element
+
+Logic is decided by the caller, not map
+
+Example:
+
+map([1,2,3], (x) => x * 2)
+
+
+➡️ map is reusable for any logic
+
+3️⃣ Custom Implementation of Array.map()
+
+You are recreating JavaScript’s built-in:
+
+Array.prototype.map()
+
+
+This helps you understand:
+
+How built-in methods work internally
+
+How arrays are transformed
+
+4️⃣ Immutability (No Modification of Original Array)
+let res = [];
+
+
+You create a new array
+
+Original arr is unchanged
+
+➡️ Very important in:
+
+React
+
+Redux
+
+Functional programming
+
+5️⃣ Index Awareness in Iteration
+fn(arr[i], i)
+
+
+The callback gets:
+
+Value
+
+Index
+
+Same as real map:
+
+arr.map((value, index) => ...)
+
+6️⃣ Separation of Logic
+
+map handles looping
+
+fn handles transformation logic
+
+This leads to:
+
+Clean code
+
+Reusability
+
+Better readability
+
+7️⃣ Array Iteration Using Loop
+for(let i=0;i<arr.length;i++)
+
+
+Manual traversal
+
+Shows how high-level methods are built from loops
+
+8️⃣ Pure Function Behavior
+
+If fn is pure:
+
+Same input → same output
+
+No side effects
+
+➡️ Helps in testing & debugging
+
+🧠 Real-Life Example
+map([1,2,3], (x, i) => x + i)
+// Output: [1, 3, 5]
+
+📝 One-Line Summary
+
+This code teaches how JavaScript uses functions as values to transform arrays using callbacks and higher-order functions.
+
+🎯 Interview Value
+
+If you understand this code well, you understand:
+
+map
+
+filter
+
+reduce
+
+Functional programming basics
