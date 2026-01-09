@@ -1,0 +1,216 @@
+2629. Function Composition
+Solved
+Easy
+premium lock icon
+Companies
+Hint
+Given an array of functions [f1, f2, f3, ..., fn], return a new function fn that is the function composition of the array of functions.
+
+The function composition of [f(x), g(x), h(x)] is fn(x) = f(g(h(x))).
+
+The function composition of an empty list of functions is the identity function f(x) = x.
+
+You may assume each function in the array accepts one integer as input and returns one integer as output.
+
+ 
+
+Example 1:
+
+Input: functions = [x => x + 1, x => x * x, x => 2 * x], x = 4
+Output: 65
+Explanation:
+Evaluating from right to left ...
+Starting with x = 4.
+2 * (4) = 8
+(8) * (8) = 64
+(64) + 1 = 65
+Example 2:
+
+Input: functions = [x => 10 * x, x => 10 * x, x => 10 * x], x = 1
+Output: 1000
+Explanation:
+Evaluating from right to left ...
+10 * (1) = 10
+10 * (10) = 100
+10 * (100) = 1000
+Example 3:
+
+Input: functions = [], x = 42
+Output: 42
+Explanation:
+The composition of zero functions is the identity function
+ 
+
+Constraints:
+
+-1000 <= x <= 1000
+0 <= functions.length <= 1000
+all functions accept and return a single integer
+
+
+/**
+ * @param {Function[]} functions
+ * @return {Function}
+ */
+var compose = function(functions) {
+    let init;
+    return function(x) {
+        let res = x;
+       for(let i = functions.length -1;i>=0;i--){
+                res = functions[i](res);
+       }
+       return res;
+    };
+};
+
+/**
+ * const fn = compose([x => x + 1, x => 2 * x])
+ * fn(4) // 9
+ */
+
+
+
+🔑 Core Concepts You Learn from “Function Composition”
+1️⃣ Functions are First-Class Citizens in JavaScript
+
+👉 In JavaScript, functions are values, just like numbers or strings.
+
+That means:
+
+You can store functions in arrays
+
+You can pass functions as arguments
+
+You can return functions from functions
+
+Example:
+
+let f = x => x + 1;
+let g = x => x * 2;
+
+let arr = [f, g];
+
+
+📌 This problem is 100% about this concept.
+
+2️⃣ Function Composition (Very Important Interview Concept)
+Meaning in simple words:
+
+Apply multiple functions one after another
+
+Given:
+
+[f, g, h]
+
+
+Composition means:
+
+f(g(h(x)))
+
+
+⚠️ Order matters:
+
+Right to left
+
+Last function runs first
+
+3️⃣ Higher-Order Functions
+
+👉 A higher-order function is a function that:
+
+Takes functions as input OR
+
+Returns a function
+
+This problem:
+
+return function(x) { ... }
+
+
+📌 You are returning a function, not a value.
+
+4️⃣ Closures (Hidden but Powerful Concept)
+
+When you do:
+
+var compose = function(functions) {
+    return function(x) {
+        ...
+    }
+}
+
+
+The returned function remembers functions.
+
+That memory is called a closure.
+
+🧠 Even after compose finishes, the returned function still has access to functions.
+
+5️⃣ Reduce / Loop from Right to Left
+
+The main logic is:
+
+Start from x
+Apply functions from last to first
+
+Mental model:
+value = x
+for every function from right → left:
+    value = fn(value)
+return value
+
+
+This teaches:
+
+Reverse traversal
+
+Reduce logic
+
+Data flow thinking
+
+6️⃣ Identity Function Concept
+What is identity function?
+f(x) = x
+
+
+If there are no functions, return input as-is.
+
+functions = []
+x = 42
+output = 42
+
+
+📌 This teaches:
+
+Base case thinking
+
+Mathematical correctness
+
+Defensive programming
+
+7️⃣ Clean Functional Programming Style
+
+This problem pushes you to:
+
+Avoid variables mutation
+
+Think in input → transform → output
+
+Write predictable functions
+
+This is core functional programming mindset.
+
+8️⃣ Real-World Usage of This Concept
+
+Function composition is used in:
+
+✔ Middleware (Express.js)
+✔ Data pipelines
+✔ React HOCs
+✔ Redux reducers
+✔ Logging / validation layers
+✔ Math & signal processing
+
+🧠 One-Line Interview Summary
+
+“This problem teaches higher-order functions, function composition, closures, and functional programming by applying functions from right to left.”
