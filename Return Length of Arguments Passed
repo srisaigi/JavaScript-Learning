@@ -1,0 +1,200 @@
+2703. Return Length of Arguments Passed
+Solved
+Easy
+premium lock icon
+Companies
+Write a function argumentsLength that returns the count of arguments passed to it.
+ 
+
+Example 1:
+
+Input: args = [5]
+Output: 1
+Explanation:
+argumentsLength(5); // 1
+
+One value was passed to the function so it should return 1.
+Example 2:
+
+Input: args = [{}, null, "3"]
+Output: 3
+Explanation: 
+argumentsLength({}, null, "3"); // 3
+
+Three values were passed to the function so it should return 3.
+ 
+
+Constraints:
+
+args is a valid JSON array
+0 <= args.length <= 100
+
+
+
+/**
+ * @param {...(null|boolean|number|string|Array|Object)} args
+ * @return {number}
+ */
+var argumentsLength = function(...args) {
+    let i=0;
+        for(let value of args){
+            i++;
+        }
+        return i;
+};
+
+/**
+ * argumentsLength(1, 2, 3); // 3
+ */
+
+
+
+1️⃣ Rest Parameters (...args)
+function(...args)
+
+Concept:
+
+👉 Collects all function arguments into one array
+
+Instead of writing:
+
+function f(a, b, c) {}
+
+
+You can write:
+
+function f(...args) {}
+
+
+Now:
+
+f(1, 2, 3)      // args = [1, 2, 3]
+f("a", true)   // args = ["a", true]
+
+
+💡 This teaches you:
+
+Functions can take any number of inputs
+
+Modern replacement for old arguments object
+
+Used heavily in React, Node.js, libraries
+
+2️⃣ JavaScript is Dynamically Typed
+
+From this line:
+
+(null|boolean|number|string|Array|Object)
+
+Concept:
+
+👉 JavaScript does not restrict data types
+
+You can pass:
+
+argumentsLength(1, "hello", true, [1,2], {x:1});
+
+
+💡 This teaches you:
+
+One function can handle multiple data types
+
+JS decides type at runtime
+
+3️⃣ for...of Loop
+for (let value of args) {
+
+Concept:
+
+👉 Loop directly over values, not indexes
+
+Example:
+
+for (let v of [10, 20, 30]) {
+    console.log(v);
+}
+
+
+💡 This teaches you:
+
+Clean way to loop through arrays
+
+Avoids index-based loops
+
+Used for arrays, strings, sets, maps
+
+4️⃣ Counting Logic (Core Programming Skill)
+let i = 0;
+i++;
+
+Concept:
+
+👉 Manual counting
+
+This is the base of:
+
+Array length calculation
+
+Loop counters
+
+Algorithm design
+
+Even though args.length exists, this helps you understand how counting works internally.
+
+5️⃣ Return Value from a Function
+return i;
+
+Concept:
+
+👉 Functions produce output
+
+Example:
+
+let result = argumentsLength(1,2,3);
+
+
+💡 This teaches you:
+
+How data flows out of a function
+
+How functions are used in expressions
+
+6️⃣ Function Expression
+var argumentsLength = function(...) { }
+
+Concept:
+
+👉 Functions are values in JavaScript
+
+You can:
+
+Assign them to variables
+
+Pass them as arguments
+
+Return them from functions
+
+This is the base of:
+
+Callbacks
+
+Higher-order functions
+
+Event handlers
+
+7️⃣ ES6 (Modern JavaScript)
+
+This code uses:
+✅ Rest parameters
+✅ let
+✅ for...of
+
+💡 This teaches you:
+
+Modern JS syntax (important for interviews)
+
+Cleaner and safer code than old JS
+
+🔑 Final Intuition (Very Simple)
+
+“This code teaches how JavaScript functions can accept unlimited inputs, loop through them, count them, and return a result — using modern JavaScript features.”
