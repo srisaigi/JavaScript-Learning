@@ -1,0 +1,219 @@
+2666. Allow One Function Call
+Solved
+Easy
+premium lock icon
+Companies
+Given a function fn, return a new function that is identical to the original function except that it ensures fn is called at most once.
+
+The first time the returned function is called, it should return the same result as fn.
+Every subsequent time it is called, it should return undefined.
+ 
+
+Example 1:
+
+Input: fn = (a,b,c) => (a + b + c), calls = [[1,2,3],[2,3,6]]
+Output: [{"calls":1,"value":6}]
+Explanation:
+const onceFn = once(fn);
+onceFn(1, 2, 3); // 6
+onceFn(2, 3, 6); // undefined, fn was not called
+Example 2:
+
+Input: fn = (a,b,c) => (a * b * c), calls = [[5,7,4],[2,3,6],[4,6,8]]
+Output: [{"calls":1,"value":140}]
+Explanation:
+const onceFn = once(fn);
+onceFn(5, 7, 4); // 140
+onceFn(2, 3, 6); // undefined, fn was not called
+onceFn(4, 6, 8); // undefined, fn was not called
+ 
+
+Constraints:
+
+calls is a valid JSON array
+1 <= calls.length <= 10
+1 <= calls[i].length <= 100
+2 <= JSON.stringify(calls).length <= 1000
+
+/**
+ * @param {Function} fn
+ * @return {Function}
+ */
+var once = function(fn) {
+    let called = false;
+    return function(...args){
+       if(called){
+        return undefined;
+       }
+       called = true;
+        return fn(...args);
+       
+    }
+};
+
+/**
+ * let fn = (a,b,c) => (a + b + c)
+ * let onceFn = once(fn)
+ *
+ * onceFn(1,2,3); // 6
+ * onceFn(2,3,6); // returns undefined without calling fn
+ */
+
+
+
+🧠 Core Idea of the Problem
+
+You are asked to wrap a function so that:
+
+It runs only once
+
+After the first call, it becomes inactive
+
+Future calls return undefined
+
+This is a behavioral control problem, not a math problem.
+
+🔑 Main JavaScript Concepts You Learn from This Problem
+1️⃣ Closures (MOST IMPORTANT TAKEAWAY)
+
+This problem is a pure closure test.
+
+Why?
+
+You need to remember:
+
+Whether fn has already been called
+
+Across multiple calls to the returned function
+
+That memory is kept using a variable in the outer scope.
+
+let called = false;
+
+
+The inner function remembers this variable even after once() has finished execution.
+
+📌 Key concept
+
+A closure allows a function to remember variables from its lexical scope.
+
+This concept is fundamental in:
+
+React hooks
+
+Event handlers
+
+Async code
+
+Libraries like lodash (once, debounce, throttle)
+
+2️⃣ Higher-Order Functions
+
+You pass a function in and get a function out:
+
+once(fn) → returns a new function
+
+
+This teaches you that:
+
+Functions are first-class citizens
+
+You can modify behavior without modifying the original function
+
+📌 Used heavily in:
+
+Functional programming
+
+Middleware
+
+Callbacks
+
+Decorators
+
+3️⃣ Function Wrapping / Decorator Pattern
+
+This problem is an example of a decorator.
+
+You are:
+
+Not changing fn
+
+But enhancing its behavior externally
+
+📌 This is the same idea behind:
+
+Authentication middleware
+
+Logging wrappers
+
+Rate limiting
+
+Memoization
+
+4️⃣ State Management Without Classes
+
+You manage state using simple variables, not classes:
+
+let called = false;
+
+
+This shows:
+
+JS does not need OOP for state
+
+Closures are often cleaner than classes
+
+5️⃣ Idempotency & Control Flow
+
+After the first call:
+
+Function becomes idempotent
+
+Repeated calls do nothing
+
+This is important in:
+
+API calls
+
+Payment systems
+
+Initialization logic
+
+Event listeners
+
+6️⃣ Understanding undefined as a Signal
+
+Returning undefined is intentional:
+
+It signals “no operation”
+
+It’s a valid JavaScript return value
+
+Understanding when and why to return undefined is important.
+
+🧪 What This Problem Is REALLY Testing
+Concept	Tested?
+Closures	✅
+Higher-order functions	✅
+Lexical scope	✅
+Function execution control	✅
+Clean API design	✅
+📝 Interview-Ready Explanation (One Paragraph)
+
+This problem demonstrates how closures can be used to control function execution. By storing a flag in the outer scope, the returned function remembers whether it has already been called and prevents further executions. It also showcases higher-order functions and the decorator pattern, which are commonly used to extend functionality without modifying the original function.
+
+🚀 Real-World Usage of This Concept
+
+Ensure initialization logic runs once
+
+Prevent duplicate API calls
+
+One-time event handlers
+
+Feature flags
+
+Singleton patterns
+
+🎯 Final Takeaway
+
+If you fully understand this problem, you understand closures, which is one of the most important and frequently tested JavaScript concepts.
