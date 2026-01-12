@@ -1,0 +1,287 @@
+2623. Memoize
+Solved
+Medium
+premium lock icon
+Companies
+Hint
+Given a function fn, return a memoized version of that function.
+
+A memoized function is a function that will never be called twice with the same inputs. Instead it will return a cached value.
+
+You can assume there are 3 possible input functions: sum, fib, and factorial.
+
+sum accepts two integers a and b and returns a + b. Assume that if a value has already been cached for the arguments (b, a) where a != b, it cannot be used for the arguments (a, b). For example, if the arguments are (3, 2) and (2, 3), two separate calls should be made.
+fib accepts a single integer n and returns 1 if n <= 1 or fib(n - 1) + fib(n - 2) otherwise.
+factorial accepts a single integer n and returns 1 if n <= 1 or factorial(n - 1) * n otherwise.
+ 
+
+Example 1:
+
+Input:
+fnName = "sum"
+actions = ["call","call","getCallCount","call","getCallCount"]
+values = [[2,2],[2,2],[],[1,2],[]]
+Output: [4,4,1,3,2]
+Explanation:
+const sum = (a, b) => a + b;
+const memoizedSum = memoize(sum);
+memoizedSum(2, 2); // "call" - returns 4. sum() was called as (2, 2) was not seen before.
+memoizedSum(2, 2); // "call" - returns 4. However sum() was not called because the same inputs were seen before.
+// "getCallCount" - total call count: 1
+memoizedSum(1, 2); // "call" - returns 3. sum() was called as (1, 2) was not seen before.
+// "getCallCount" - total call count: 2
+Example 2:
+
+Input:
+fnName = "factorial"
+actions = ["call","call","call","getCallCount","call","getCallCount"]
+values = [[2],[3],[2],[],[3],[]]
+Output: [2,6,2,2,6,2]
+Explanation:
+const factorial = (n) => (n <= 1) ? 1 : (n * factorial(n - 1));
+const memoFactorial = memoize(factorial);
+memoFactorial(2); // "call" - returns 2.
+memoFactorial(3); // "call" - returns 6.
+memoFactorial(2); // "call" - returns 2. However factorial was not called because 2 was seen before.
+// "getCallCount" - total call count: 2
+memoFactorial(3); // "call" - returns 6. However factorial was not called because 3 was seen before.
+// "getCallCount" - total call count: 2
+Example 3:
+
+Input:
+fnName = "fib"
+actions = ["call","getCallCount"]
+values = [[5],[]]
+Output: [8,1]
+Explanation:
+fib(5) = 8 // "call"
+// "getCallCount" - total call count: 1
+ 
+
+Constraints:
+
+0 <= a, b <= 105
+1 <= n <= 10
+1 <= actions.length <= 105
+actions.length === values.length
+actions[i] is one of "call" and "getCallCount"
+fnName is one of "sum", "factorial" and "fib"
+
+
+
+
+
+
+/**
+ * @param {Function} fn
+ * @return {Function}
+ */
+function memoize(fn) {
+            const cache = new Map();
+    return function(...args) {
+        const key = JSON.stringify(args);
+
+            if(cache.has(key)){
+                return cache.get(key);
+            }
+        const res = fn(...args);
+        cache.set(key,res);
+        return res;
+    }
+}
+
+
+/** 
+ * let callCount = 0;
+ * const memoizedFn = memoize(function (a, b) {
+ *	 callCount += 1;
+ *   return a + b;
+ * })
+ * memoizedFn(2, 3) // 5
+ * memoizedFn(2, 3) // 5
+ * console.log(callCount) // 1 
+ */
+
+
+🧠 What is the MAIN CONCEPT here?
+👉 Memoization
+
+Memoization = remembering previously computed results so you don’t calculate them again.
+
+🎯 Why Memoization?
+
+Functions often get called with the same inputs
+
+Recomputing results is waste of time
+
+Memoization:
+
+Saves time ⏱️
+
+Improves performance 🚀
+
+🔍 What This Code Does (In Simple Words)
+
+This code creates a smart function that:
+
+Runs the original function only once per unique input
+
+Returns stored results on repeated calls
+
+🧩 Concept-by-Concept Explanation
+1️⃣ Higher-Order Function
+function memoize(fn)
+
+
+A function that takes another function as input
+
+Returns a new enhanced function
+
+📌 Very important JavaScript concept
+
+2️⃣ Closure
+const cache = new Map();
+
+
+cache lives inside memoize
+
+Returned function can still access it
+
+Cache is private and persistent
+
+📌 This is a closure
+
+3️⃣ Map for Caching
+const cache = new Map();
+
+
+Stores:
+
+key → input arguments
+
+value → output result
+
+Why Map?
+
+Faster lookups
+
+Cleaner than objects
+
+4️⃣ Rest Parameters
+return function(...args)
+
+
+Accepts any number of arguments
+
+Makes function generic
+
+📌 Flexible function design
+
+5️⃣ Creating a Unique Cache Key
+const key = JSON.stringify(args);
+
+
+Converts arguments into a string
+
+Used as a unique identifier
+
+Example:
+
+[2, 3] → "[2,3]"
+
+6️⃣ Cache Hit (Already Computed)
+if (cache.has(key)) {
+    return cache.get(key);
+}
+
+
+If result already exists:
+
+Return it immediately
+
+❌ Do NOT call fn again
+
+📌 Performance optimization
+
+7️⃣ Cache Miss (First Time Call)
+const res = fn(...args);
+cache.set(key, res);
+return res;
+
+
+Compute result
+
+Store in cache
+
+Return result
+
+📌 Store once, reuse forever
+
+🔁 Flow Example (Your Case)
+memoizedFn(2, 3)
+
+
+Cache empty ❌
+
+Call original function
+
+Store result → { "[2,3]" : 5 }
+
+callCount = 1
+
+memoizedFn(2, 3)
+
+
+Cache hit ✅
+
+Return 5
+
+Function NOT called again
+
+callCount = 1
+
+🔥 Concepts You Learn from This Code
+Concept	Why Important
+Memoization	Performance optimization
+Closures	Preserve state
+Higher-order functions	Function composition
+Map	Efficient caching
+Rest parameters	Generic functions
+JSON.stringify	Key generation
+🧠 Real-World Use Cases
+
+Fibonacci calculation
+
+API response caching
+
+Dynamic programming
+
+Expensive calculations
+
+React useMemo
+
+🎯 Interview One-Liner
+
+“Memoization is an optimization technique where function results are cached based on inputs to avoid repeated computation.”
+
+⚠️ Small Limitation (Bonus Insight)
+JSON.stringify(args)
+
+
+Works well for:
+
+Numbers
+
+Strings
+
+Simple arrays
+
+Can break for:
+
+Objects with different key order
+
+Functions
+
+✅ Final Summary
+
+This code teaches how to optimize functions using memoization by leveraging closures and Maps to cache results efficiently.
