@@ -1,0 +1,189 @@
+2621. Sleep
+Solved
+Easy
+premium lock icon
+Companies
+Hint
+Given a positive integer millis, write an asynchronous function that sleeps for millis milliseconds. It can resolve any value.
+
+Note that minor deviation from millis in the actual sleep duration is acceptable.
+
+ 
+
+Example 1:
+
+Input: millis = 100
+Output: 100
+Explanation: It should return a promise that resolves after 100ms.
+let t = Date.now();
+sleep(100).then(() => {
+  console.log(Date.now() - t); // 100
+});
+Example 2:
+
+Input: millis = 200
+Output: 200
+Explanation: It should return a promise that resolves after 200ms.
+ 
+
+Constraints:
+
+1 <= millis <= 1000
+ 
+
+
+/**
+ * @param {number} millis
+ * @return {Promise}
+ */
+async function sleep(millis) {
+        return new Promise(resolve => {
+        setTimeout(resolve,millis);
+        });
+}
+
+/** 
+ * let t = Date.now()
+ * sleep(100).then(() => console.log(Date.now() - t)) // 100
+ */
+
+
+1️⃣ Promises (Core Concept)
+🔹 What is a Promise?
+
+A Promise represents a value that will be available in the future.
+
+It has 3 states:
+
+Pending
+
+Fulfilled
+
+Rejected
+
+In your code:
+
+new Promise(resolve => {
+    setTimeout(resolve, millis);
+});
+
+🧠 Meaning:
+
+Promise starts in pending
+
+After millis ms → resolve() is called
+
+Promise becomes fulfilled
+
+2️⃣ setTimeout + Event Loop (Async Behavior)
+setTimeout(resolve, millis);
+
+🧠 What happens internally?
+
+setTimeout is registered
+
+JS continues execution (non-blocking)
+
+After millis, callback goes to task queue
+
+Event loop executes it
+
+👉 JavaScript does NOT pause execution
+
+3️⃣ async Function
+async function sleep(millis) { ... }
+
+🧠 Meaning:
+
+async ensures the function always returns a Promise
+
+Even if you return a normal value
+
+So this is equivalent to:
+
+function sleep(millis) {
+    return Promise.resolve(/* something */);
+}
+
+4️⃣ Resolving a Promise Without a Value
+resolve();
+
+🧠 Meaning:
+
+Promise resolves with undefined
+
+We only care about timing, not data
+
+This is perfect for sleep
+
+5️⃣ Creating a Delay Without Blocking
+❌ Bad (Blocking)
+while(Date.now() - start < 1000) {}
+
+✅ Good (Non-blocking)
+await sleep(1000);
+
+
+👉 This is how you create delays without freezing the app
+
+6️⃣ Using .then() vs await
+sleep(100).then(() => console.log("Done"));
+
+
+OR
+
+await sleep(100);
+console.log("Done");
+
+🧠 Concept:
+
+.then() → promise chaining
+
+await → synchronous-looking async code
+
+7️⃣ Callback → Promise Conversion (Promisification)
+
+Your code converts a callback-based API:
+
+setTimeout(callback, time);
+
+
+Into a Promise-based API:
+
+await sleep(time);
+
+
+This is called promisification.
+
+🎯 Key Concepts You Learn From This Code
+Concept	What You Learn
+Promises	Handling future values
+async/await	Cleaner async code
+Event Loop	Non-blocking execution
+setTimeout	Task scheduling
+Promisification	Wrapping callbacks
+Non-blocking delay	Performance-safe waits
+🧠 One-Line Interview Explanation
+
+This code creates a non-blocking delay using Promises and async/await by wrapping setTimeout inside a Promise.
+
+🔥 Real-World Uses of sleep()
+
+✔ Retry logic
+✔ API rate limiting
+✔ Animations
+✔ Testing delays
+✔ Polling systems
+
+🔁 Mental Model
+sleep(1000)
+   ↓
+Promise created
+   ↓
+setTimeout registered
+   ↓
+Event loop waits
+   ↓
+Promise resolves
+
+
