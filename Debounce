@@ -1,0 +1,326 @@
+2627. Debounce
+Solved
+Medium
+premium lock icon
+Companies
+Hint
+Given a function fn and a time in milliseconds t, return a debounced version of that function.
+
+A debounced function is a function whose execution is delayed by t milliseconds and whose execution is cancelled if it is called again within that window of time. The debounced function should also receive the passed parameters.
+
+For example, let's say t = 50ms, and the function was called at 30ms, 60ms, and 100ms.
+
+The first 2 function calls would be cancelled, and the 3rd function call would be executed at 150ms.
+
+If instead t = 35ms, The 1st call would be cancelled, the 2nd would be executed at 95ms, and the 3rd would be executed at 135ms.
+
+Debounce Schematic
+
+The above diagram shows how debounce will transform events. Each rectangle represents 100ms and the debounce time is 400ms. Each color represents a different set of inputs.
+
+Please solve it without using lodash's _.debounce() function.
+
+ 
+
+Example 1:
+
+Input: 
+t = 50
+calls = [
+  {"t": 50, inputs: [1]},
+  {"t": 75, inputs: [2]}
+]
+Output: [{"t": 125, inputs: [2]}]
+Explanation:
+let start = Date.now();
+function log(...inputs) { 
+  console.log([Date.now() - start, inputs ])
+}
+const dlog = debounce(log, 50);
+setTimeout(() => dlog(1), 50);
+setTimeout(() => dlog(2), 75);
+
+The 1st call is cancelled by the 2nd call because the 2nd call occurred before 100ms
+The 2nd call is delayed by 50ms and executed at 125ms. The inputs were (2).
+Example 2:
+
+Input: 
+t = 20
+calls = [
+  {"t": 50, inputs: [1]},
+  {"t": 100, inputs: [2]}
+]
+Output: [{"t": 70, inputs: [1]}, {"t": 120, inputs: [2]}]
+Explanation:
+The 1st call is delayed until 70ms. The inputs were (1).
+The 2nd call is delayed until 120ms. The inputs were (2).
+Example 3:
+
+Input: 
+t = 150
+calls = [
+  {"t": 50, inputs: [1, 2]},
+  {"t": 300, inputs: [3, 4]},
+  {"t": 300, inputs: [5, 6]}
+]
+Output: [{"t": 200, inputs: [1,2]}, {"t": 450, inputs: [5, 6]}]
+Explanation:
+The 1st call is delayed by 150ms and ran at 200ms. The inputs were (1, 2).
+The 2nd call is cancelled by the 3rd call
+The 3rd call is delayed by 150ms and ran at 450ms. The inputs were (5, 6).
+ 
+
+Constraints:
+
+0 <= t <= 1000
+1 <= calls.length <= 10
+0 <= calls[i].t <= 1000
+0 <= calls[i].inputs.length <= 10
+
+
+
+/**
+ * @param {Function} fn
+ * @param {number} t milliseconds
+ * @return {Function}
+ */
+var debounce = function(fn, t) {
+    let timer = null;
+    return function(...args) {
+        clearTimeout(timer);
+        timer = setTimeout(()  => {
+                fn(...args);
+        },t);
+    };
+};
+
+/**
+ * const log = debounce(console.log, 100);
+ * log('Hello'); // cancelled
+ * log('Hello'); // cancelled
+ * log('Hello'); // Logged at t=100ms
+ */
+
+
+
+🔥 Big Picture
+
+This code teaches you how JavaScript works under the hood, not just how to solve one problem.
+
+[1,2,3].groupBy(String)
+
+
+works because of multiple JS concepts combined together.
+
+🧠 CONCEPTS YOU LEARN FROM THIS CODE
+
+I’ll explain each concept → what it means → how this code uses it.
+
+1️⃣ Prototype-Based Inheritance (MOST IMPORTANT)
+🔹 Concept
+
+JavaScript does not use classical inheritance like Java.
+It uses prototypes.
+
+Every array inherits methods from:
+
+Array.prototype
+
+🔹 In Code
+Array.prototype.groupBy = function(fn) {
+
+
+You are adding a new method to ALL arrays.
+
+So now:
+
+[].groupBy
+[1,2,3].groupBy
+
+
+both work.
+
+🧠 What You Learn
+
+✔ How JS allows modifying built-in objects
+✔ Why .map, .filter, .reduce work on arrays
+
+2️⃣ this Keyword (Context Binding)
+🔹 Concept
+
+In JavaScript, this depends on how a function is called, not where it’s written.
+
+🔹 In Code
+for (const item of this) {
+
+
+Here:
+
+[1,2,3].groupBy(...)
+
+
+So this = [1,2,3]
+
+🧠 What You Learn
+
+✔ this refers to the calling object
+✔ How methods access their own data
+
+3️⃣ Higher-Order Functions
+🔹 Concept
+
+A function that:
+
+Takes another function as input
+
+Or returns a function
+
+🔹 In Code
+Array.prototype.groupBy = function(fn) {
+
+
+fn is passed by the user and decides grouping logic.
+
+🧠 What You Learn
+
+✔ Functions are first-class citizens
+✔ Behavior can be customized dynamically
+
+4️⃣ Callback Pattern
+🔹 Concept
+
+Instead of hardcoding logic, you call back user logic.
+
+🔹 In Code
+const key = fn(item);
+
+
+The grouping rule is not fixed.
+
+🧠 What You Learn
+
+✔ Separation of logic and data
+✔ Why JS is flexible
+
+5️⃣ Hash Maps Using Objects
+🔹 Concept
+
+Objects are used as key–value stores.
+
+🔹 In Code
+const result = {};
+
+
+Keys:
+
+result[key]
+
+
+Values:
+
+arrays
+
+🧠 What You Learn
+
+✔ Objects = dictionaries / hash maps
+✔ Efficient grouping (O(1) lookup)
+
+6️⃣ Dynamic Property Creation
+🔹 Concept
+
+Object properties can be created at runtime.
+
+🔹 In Code
+if (!result[key]) {
+    result[key] = [];
+}
+
+🧠 What You Learn
+
+✔ JavaScript objects are dynamic
+✔ No need to predefine structure
+
+7️⃣ Iteration with for...of
+🔹 Concept
+
+for...of iterates over values, not indexes.
+
+🔹 In Code
+for (const item of this)
+
+🧠 What You Learn
+
+✔ Cleaner iteration
+✔ Works with arrays, strings, maps
+
+8️⃣ Order Preservation
+🔹 Concept
+
+Arrays preserve insertion order.
+
+🔹 In Code
+result[key].push(item);
+
+🧠 What You Learn
+
+✔ Grouping without sorting
+✔ Stable data transformations
+
+9️⃣ Functional + Imperative Hybrid Style
+
+This code mixes:
+
+Functional → callback function
+
+Imperative → loops & conditionals
+
+This is very common in real-world JS.
+
+🔟 Extending Native Objects (Advanced Concept ⚠️)
+🔹 Concept
+
+You can extend built-in prototypes — but must be careful.
+
+🔹 In Code
+Array.prototype.groupBy = ...
+
+⚠️ Caution
+
+In real projects:
+
+Can cause conflicts
+
+Libraries might break
+
+But for:
+✔ Interviews
+✔ Polyfills
+✔ LeetCode
+
+→ It’s perfectly fine.
+
+🎯 INTERVIEW SUMMARY (ONE-LINER)
+
+“This code demonstrates prototype-based inheritance, this binding, higher-order functions, callbacks, dynamic objects, and hash-based grouping — all core JavaScript fundamentals.”
+
+🧩 BONUS: Same Logic Using reduce
+Array.prototype.groupBy = function(fn) {
+    return this.reduce((res, item) => {
+        const key = fn(item);
+        (res[key] ||= []).push(item);
+        return res;
+    }, {});
+};
+
+
+If you want next:
+
+💬 Interview Q&A on this code
+
+🧪 Edge cases
+
+🚀 Performance discussion
+
+✍️ LinkedIn post version
+
+Just tell me 👍
