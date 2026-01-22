@@ -1,0 +1,228 @@
+2727. Is Object Empty
+Solved
+Easy
+premium lock icon
+Companies
+Given an object or an array, return if it is empty.
+
+An empty object contains no key-value pairs.
+An empty array contains no elements.
+You may assume the object or array is the output of JSON.parse.
+
+ 
+
+Example 1:
+
+Input: obj = {"x": 5, "y": 42}
+Output: false
+Explanation: The object has 2 key-value pairs so it is not empty.
+Example 2:
+
+Input: obj = {}
+Output: true
+Explanation: The object doesn't have any key-value pairs so it is empty.
+Example 3:
+
+Input: obj = [null, false, 0]
+Output: false
+Explanation: The array has 3 elements so it is not empty.
+ 
+
+Constraints:
+
+obj is a valid JSON object or array
+2 <= JSON.stringify(obj).length <= 105
+ 
+
+Can you solve it in O(1) time?
+
+
+
+/**
+ * @param {Object|Array} obj
+ * @return {boolean}
+ */
+var isEmpty = function(obj) {
+            if(Array.isArray(obj)){
+                return obj.length === 0;
+            }
+        return Object.keys(obj).length === 0;
+};
+
+
+
+Great question 👍
+This is a very interview-important JavaScript snippet, and it teaches multiple core JS concepts in a small amount of code.
+
+I’ll explain:
+
+What the code does (in simple words)
+
+Line-by-line explanation
+
+Core JavaScript concepts you learn from this
+
+Why this is useful in real projects & interviews
+
+1️⃣ What does this function do? (Simple words)
+
+isEmpty(obj) checks whether an object or array is empty.
+
+Empty array → [] → ✅ true
+
+Non-empty array → [1,2] → ❌ false
+
+Empty object → {} → ✅ true
+
+Non-empty object → {a:1} → ❌ false
+
+2️⃣ Line-by-Line Explanation
+var isEmpty = function(obj) {
+
+
+➡️ We define a function called isEmpty
+➡️ It takes one parameter obj
+➡️ obj can be either an Array or an Object
+
+if (Array.isArray(obj)) {
+
+
+➡️ Checks:
+
+“Is this input an array?”
+
+🔑 Array.isArray() is the correct and safest way to check for arrays in JS.
+
+return obj.length === 0;
+
+
+➡️ Arrays have a .length property
+➡️ If length is 0, array is empty
+➡️ Returns true or false
+
+Example:
+
+[].length === 0     // true
+[1,2].length === 0 // false
+
+return Object.keys(obj).length === 0;
+
+
+➡️ This runs only if it’s NOT an array
+
+What is Object.keys(obj)?
+
+It returns an array of property names
+
+Example:
+
+Object.keys({})          // []
+Object.keys({a: 1})      // ["a"]
+
+
+➡️ If number of keys is 0, object is empty
+
+3️⃣ 🔥 CORE JavaScript Concepts You Learn From This
+🧠 1. Type Checking in JavaScript
+
+JavaScript is dynamically typed, so we must check types at runtime.
+
+You learn:
+
+Array.isArray(value)
+
+
+❌ Wrong ways (common mistakes):
+
+typeof arr === "array"   // ❌
+
+🧠 2. Difference Between Arrays and Objects
+Arrays	Objects
+Have length	Have keys
+Ordered	Unordered
+Use indices	Use properties
+
+This code teaches how to handle both correctly.
+
+🧠 3. Object Introspection
+
+Using:
+
+Object.keys(obj)
+
+
+This teaches:
+
+How to inspect an object
+
+How to count properties
+
+How frameworks check state emptiness
+
+🧠 4. Early Return Pattern
+if (...) {
+  return ...
+}
+return ...
+
+
+✔ Cleaner
+✔ More readable
+✔ Used in production code
+
+🧠 5. Defensive Programming
+
+The function safely handles:
+
+Arrays
+
+Objects
+
+This mindset is crucial in backend + frontend + interviews.
+
+4️⃣ Why this matters in Real Life 🚀
+🔹 React / Frontend
+if (isEmpty(formData)) {
+  showError();
+}
+
+🔹 Backend APIs
+if (isEmpty(req.body)) {
+  return res.status(400).send("Empty body");
+}
+
+🔹 LeetCode / Interviews
+
+This exact pattern is asked frequently.
+
+🧪 Edge Case Awareness (Advanced Thinking)
+
+This function does NOT handle:
+
+null
+
+undefined
+
+strings
+
+numbers
+
+A more defensive version:
+
+if (obj == null) return true;
+
+
+But for LeetCode — your version is perfect 👍
+
+🏁 Interview One-Line Explanation
+
+“This code demonstrates type checking, object inspection, and defensive programming by correctly determining whether an array or object is empty.”
+
+✅ Summary of Concepts Learned
+
+✔ Type checking
+✔ Array vs Object differences
+✔ Object.keys()
+✔ Clean control flow
+✔ Practical problem solving
+ 
