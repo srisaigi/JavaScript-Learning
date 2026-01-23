@@ -1,0 +1,221 @@
+2677. Chunk Array
+Solved
+Easy
+premium lock icon
+Companies
+Given an array arr and a chunk size size, return a chunked array.
+
+A chunked array contains the original elements in arr, but consists of subarrays each of length size. The length of the last subarray may be less than size if arr.length is not evenly divisible by size.
+
+Please solve it without using lodash's _.chunk function.
+
+ 
+
+Example 1:
+
+Input: arr = [1,2,3,4,5], size = 1
+Output: [[1],[2],[3],[4],[5]]
+Explanation: The arr has been split into subarrays each with 1 element.
+Example 2:
+
+Input: arr = [1,9,6,3,2], size = 3
+Output: [[1,9,6],[3,2]]
+Explanation: The arr has been split into subarrays with 3 elements. However, only two elements are left for the 2nd subarray.
+Example 3:
+
+Input: arr = [8,5,3,2,6], size = 6
+Output: [[8,5,3,2,6]]
+Explanation: Size is greater than arr.length thus all elements are in the first subarray.
+Example 4:
+
+Input: arr = [], size = 1
+Output: []
+Explanation: There are no elements to be chunked so an empty array is returned.
+ 
+
+Constraints:
+
+arr is a string representing the array.
+2 <= arr.length <= 105
+1 <= size <= arr.length + 1
+
+
+
+
+/**
+ * @param {Array} arr
+ * @param {number} size
+ * @return {Array}
+ */
+var chunk = function(arr, size) {
+    let res =[];
+    for(let i=0;i<arr.length;i+=size){
+        res.push(arr.slice(i,i+size));
+    }
+    return res;
+};
+
+
+
+Great question 👍
+This is a small function, but it teaches multiple IMPORTANT JavaScript concepts that are used everywhere (DSA + interviews + real projects).
+
+I’ll explain what concepts you learn, not just what the code does.
+
+📌 Code (for reference)
+var chunk = function(arr, size) {
+    let res = [];
+    for (let i = 0; i < arr.length; i += size) {
+        res.push(arr.slice(i, i + size));
+    }
+    return res;
+};
+
+🧠 CONCEPTS YOU LEARN FROM THIS CODE
+1️⃣ Array Chunking (Very Common Pattern)
+What is chunking?
+
+Breaking a big array into smaller arrays of fixed size
+
+Example:
+
+arr = [1,2,3,4,5]
+size = 2
+
+Output → [[1,2],[3,4],[5]]
+
+
+👉 Used in:
+
+Pagination
+
+Batching API calls
+
+Data processing
+
+LeetCode problems
+
+2️⃣ Looping With Custom Step Size (i += size)
+This is VERY important
+for (let i = 0; i < arr.length; i += size)
+
+
+Instead of:
+
+i++
+
+
+You jump by size steps.
+
+📌 Meaning:
+
+“Start a new chunk every size elements”
+
+This teaches:
+
+Controlled iteration
+
+Efficient traversal
+
+3️⃣ slice() – Non-Mutating Array Method
+arr.slice(start, end)
+
+Key points:
+
+Returns a new array
+
+Does NOT modify original array
+
+end is not included
+
+Example:
+
+[1,2,3,4].slice(1,3) → [2,3]
+
+
+👉 Interview-friendly:
+
+“slice is safe; splice mutates”
+
+4️⃣ Understanding Half-Open Ranges [i, i+size)
+slice(i, i + size)
+
+
+This teaches a core programming concept:
+
+Start index = i
+End index   = i + size (excluded)
+
+
+This pattern appears in:
+
+Arrays
+
+Strings
+
+DP windows
+
+Sliding window problems
+
+5️⃣ Building Result Incrementally (push)
+res.push(...)
+
+
+Teaches:
+
+Result accumulation
+
+Output-first thinking
+
+Clean separation:
+
+read from input
+
+write to result
+
+6️⃣ Handling Uneven Data Automatically
+Hidden smart behavior
+arr = [1,2,3,4,5]
+size = 2
+
+
+Last slice:
+
+slice(4,6) → [5]
+
+
+➡️ No extra checks needed
+➡️ JavaScript handles bounds safely
+
+📌 Concept:
+
+“Let the language work for you”
+
+7️⃣ Time Complexity Awareness
+
+Loop runs: n / size times
+
+Each slice takes size time
+
+👉 Total:
+
+O(n)
+
+
+Very efficient.
+
+🧠 HOW TO EXPLAIN IN INTERVIEW
+
+“I iterate in steps of size, extract subarrays using slice, and push them into the result array.”
+
+Short. Clean. Confident.
+
+🧩 BIG PICTURE CONCEPTS SUMMARY
+Concept	Learned
+Array chunking	✅
+Controlled loops	✅
+Non-mutating methods	✅
+Index math	✅
+Result accumulation	✅
+Boundary safety	✅
+Efficient traversal	✅
