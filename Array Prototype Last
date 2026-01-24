@@ -1,0 +1,195 @@
+2619. Array Prototype Last
+Solved
+Easy
+premium lock icon
+Companies
+Hint
+Write code that enhances all arrays such that you can call the array.last() method on any array and it will return the last element. If there are no elements in the array, it should return -1.
+
+You may assume the array is the output of JSON.parse.
+
+ 
+
+Example 1:
+
+Input: nums = [null, {}, 3]
+Output: 3
+Explanation: Calling nums.last() should return the last element: 3.
+Example 2:
+
+Input: nums = []
+Output: -1
+Explanation: Because there are no elements, return -1.
+ 
+
+Constraints:
+
+arr is a valid JSON array
+0 <= arr.length <= 1000
+
+
+/**
+ * @return {null|boolean|number|string|Array|Object}
+ */
+Array.prototype.last = function() {
+    if(this.length == 0){
+        return -1;
+    }
+    return this[this.length -1];
+};
+
+/**
+ * const arr = [1, 2, 3];
+ * arr.last(); // 3
+ */
+
+
+Excellent question 👍
+This is a small piece of code, but it teaches you very important JavaScript concepts that are heavily used in real projects and interviews.
+
+Let’s break it down slowly and clearly.
+
+🧠 What Is This Code Doing? (In Simple Words)
+
+You are adding a new method called last() to all arrays in JavaScript.
+
+So after this:
+
+[1, 2, 3].last();  // 3
+[].last();        // -1
+
+🔑 MAIN CONCEPTS You Learn From This Code
+1️⃣ Prototype in JavaScript ⭐⭐⭐ (MOST IMPORTANT)
+Array.prototype.last = function() { ... }
+
+What this means:
+
+Every array in JavaScript comes from Array
+
+prototype is a shared object
+
+Adding a method to Array.prototype makes it available to all arrays
+
+📌 Real meaning:
+
+“Add last() as a built-in feature for arrays”
+
+2️⃣ this Keyword (Object Context)
+this.length
+this[this.length - 1]
+
+What is this here?
+
+this refers to the array that calls last()
+
+Example:
+
+const arr = [10, 20, 30];
+arr.last();
+
+
+Here:
+
+this → [10, 20, 30]
+
+
+📌 You learn:
+
+this depends on who is calling the function
+
+3️⃣ Defensive Programming (Handling Edge Cases)
+if (this.length == 0) {
+    return -1;
+}
+
+
+This avoids errors when the array is empty.
+
+📌 You learn:
+
+Always handle edge cases (empty array, null, undefined)
+
+This is interview gold.
+
+4️⃣ Array Indexing Logic
+this[this.length - 1]
+
+
+This teaches:
+
+Arrays are 0-indexed
+
+Last element index = length - 1
+
+5️⃣ Method Extension / Polyfill Concept ⭐⭐⭐
+
+This code is similar to a polyfill.
+
+📌 What is a polyfill?
+
+Adding missing features to JavaScript if they don’t exist.
+
+Example:
+
+Older JS didn’t have Array.flat()
+
+Developers wrote their own versions
+
+Your code:
+
+Array.prototype.last
+
+
+is exactly that idea.
+
+🧩 Concepts Summary Table
+Concept	What You Learn
+Prototype	Shared methods across objects
+this	Dynamic object reference
+Method chaining	Object-oriented JS
+Edge cases	Safe coding
+Polyfills	Extending JS features
+💡 Interview-Level Explanation (Perfect Answer)
+
+This code demonstrates how to extend JavaScript’s built-in Array object using prototypes. It uses the this keyword to access the calling array and safely returns the last element, handling empty arrays as an edge case.
+
+⚠️ Important Warning (Real-World Knowledge)
+
+❌ Modifying built-in prototypes is not recommended in production
+✔ It’s great for:
+
+Learning
+
+Interviews
+
+Polyfills (with care)
+
+Coding challenges
+
+Why?
+
+Can cause conflicts with libraries
+
+Can break future JS updates
+
+🔥 BONUS: How Interviewers Think
+
+If they see this code, they expect you to know:
+
+What is prototype
+
+What is this
+
+Why empty check is needed
+
+Risks of prototype modification
+
+🏁 Final Takeaway
+
+Even small code teaches:
+
+How JavaScript works internally
+
+Mastering such snippets = strong JS foundation 💪
+
+
