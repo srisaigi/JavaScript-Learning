@@ -1,0 +1,224 @@
+2724. Sort By
+Solved
+Easy
+premium lock icon
+Companies
+Given an array arr and a function fn, return a sorted array sortedArr. You can assume fn only returns numbers and those numbers determine the sort order of sortedArr. sortedArr must be sorted in ascending order by fn output.
+
+You may assume that fn will never duplicate numbers for a given array.
+
+ 
+
+Example 1:
+
+Input: arr = [5, 4, 1, 2, 3], fn = (x) => x
+Output: [1, 2, 3, 4, 5]
+Explanation: fn simply returns the number passed to it so the array is sorted in ascending order.
+Example 2:
+
+Input: arr = [{"x": 1}, {"x": 0}, {"x": -1}], fn = (d) => d.x
+Output: [{"x": -1}, {"x": 0}, {"x": 1}]
+Explanation: fn returns the value for the "x" key. So the array is sorted based on that value.
+Example 3:
+
+Input: arr = [[3, 4], [5, 2], [10, 1]], fn = (x) => x[1]
+Output: [[10, 1], [5, 2], [3, 4]]
+Explanation: arr is sorted in ascending order by number at index=1. 
+ 
+
+Constraints:
+
+arr is a valid JSON array
+fn is a function that returns a number
+
+
+
+/**
+ * @param {Array} arr
+ * @param {Function} fn
+ * @return {Array}
+ */
+var sortBy = function(arr, fn) {
+    return arr.sort((a,b) => fn(a) - fn(b));
+};
+
+
+Great question 👍
+This is a small piece of code, but it teaches you multiple very important JavaScript concepts that are used everywhere in real projects and interviews.
+
+Let’s break it down clearly and calmly.
+
+📌 The Code
+var sortBy = function(arr, fn) {
+    return arr.sort((a, b) => fn(a) - fn(b));
+};
+
+🧠 Core Concepts You Learn From This Code
+1️⃣ Higher-Order Functions (MOST IMPORTANT)
+What it means:
+
+A function that:
+
+accepts another function as an argument, or
+
+returns a function
+
+In your code:
+sortBy(arr, fn)
+
+
+fn is a function passed into another function
+
+fn(a) and fn(b) are executed inside sortBy
+
+📌 Example:
+
+sortBy([5, 2, 8], x => x)
+
+
+➡️ Here x => x is passed as fn
+
+💡 This is foundational JavaScript knowledge
+
+2️⃣ Custom Sorting Using Comparator Functions
+
+JavaScript’s sort() works like this:
+
+arr.sort((a, b) => {
+    return negative → a comes first
+    return positive → b comes first
+    return 0        → no change
+});
+
+Your comparator:
+(a, b) => fn(a) - fn(b)
+
+
+This means:
+
+Compare elements based on transformed values
+
+NOT the raw values
+
+📌 Example:
+
+sortBy([1, 2, 3], x => -x)
+
+
+→ Sorts in descending order
+
+3️⃣ Function as a Transformation Rule
+
+fn is NOT just a callback — it acts like a rule:
+
+“How should each element be ranked?”
+
+📌 Example:
+
+sortBy(["apple", "banana", "kiwi"], s => s.length)
+
+
+Sorting is done by:
+
+fn("apple")  = 5
+fn("banana") = 6
+fn("kiwi")   = 4
+
+
+Final order:
+
+["kiwi", "apple", "banana"]
+
+
+💡 This is called key-based sorting
+
+4️⃣ Arrow Functions (Concise Syntax)
+
+Instead of:
+
+function(a, b) {
+    return fn(a) - fn(b);
+}
+
+
+You wrote:
+
+(a, b) => fn(a) - fn(b)
+
+
+You learn:
+
+Shorter syntax
+
+Cleaner functional style
+
+No return keyword needed for single expression
+
+5️⃣ In-Place Mutation Awareness
+arr.sort(...)
+
+
+⚠️ Important:
+
+sort() mutates the original array
+
+It does NOT create a new array
+
+So:
+
+let x = [3,1,2];
+sortBy(x, n => n);
+console.log(x); // changed
+
+
+💡 This teaches side effects, which is crucial in real applications.
+
+6️⃣ Abstraction & Reusability
+
+Instead of writing:
+
+arr.sort((a,b) => a - b);
+
+
+You wrote:
+
+sortBy(arr, fn);
+
+
+This allows:
+
+Sorting numbers
+
+Sorting objects
+
+Sorting strings
+
+Sorting computed values
+
+📌 Example:
+
+sortBy(users, u => u.age)
+sortBy(products, p => p.price)
+sortBy(files, f => f.size)
+
+
+💡 This is clean code design
+
+🧠 Big Picture Lesson (VERY IMPORTANT)
+
+This code teaches you:
+
+"Don’t hardcode behavior — pass behavior as a function."
+
+That is the heart of:
+
+Functional programming
+
+JavaScript design
+
+React, Node.js, and modern JS frameworks
+
+🎯 Interview-Ready Summary (1–2 Lines)
+
+This code demonstrates higher-order functions, custom comparator-based sorting, and functional abstraction by allowing flexible, key-based array sorting using a transformation function.
+1 <= arr.length <= 5 * 105
