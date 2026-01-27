@@ -1,0 +1,252 @@
+2722. Join Two Arrays by ID
+Solved
+Medium
+premium lock icon
+Companies
+Given two arrays arr1 and arr2, return a new array joinedArray. All the objects in each of the two inputs arrays will contain an id field that has an integer value. 
+
+joinedArray is an array formed by merging arr1 and arr2 based on their id key. The length of joinedArray should be the length of unique values of id. The returned array should be sorted in ascending order based on the id key.
+
+If a given id exists in one array but not the other, the single object with that id should be included in the result array without modification.
+
+If two objects share an id, their properties should be merged into a single object:
+
+If a key only exists in one object, that single key-value pair should be included in the object.
+If a key is included in both objects, the value in the object from arr2 should override the value from arr1.
+ 
+
+Example 1:
+
+Input: 
+arr1 = [
+    {"id": 1, "x": 1},
+    {"id": 2, "x": 9}
+], 
+arr2 = [
+    {"id": 3, "x": 5}
+]
+Output: 
+[
+    {"id": 1, "x": 1},
+    {"id": 2, "x": 9},
+    {"id": 3, "x": 5}
+]
+Explanation: There are no duplicate ids so arr1 is simply concatenated with arr2.
+Example 2:
+
+Input: 
+arr1 = [
+    {"id": 1, "x": 2, "y": 3},
+    {"id": 2, "x": 3, "y": 6}
+], 
+arr2 = [
+    {"id": 2, "x": 10, "y": 20},
+    {"id": 3, "x": 0, "y": 0}
+]
+Output: 
+[
+    {"id": 1, "x": 2, "y": 3},
+    {"id": 2, "x": 10, "y": 20},
+    {"id": 3, "x": 0, "y": 0}
+]
+Explanation: The two objects with id=1 and id=3 are included in the result array without modifiction. The two objects with id=2 are merged together. The keys from arr2 override the values in arr1.
+Example 3:
+
+Input: 
+arr1 = [
+    {"id": 1, "b": {"b": 94},"v": [4, 3], "y": 48}
+]
+arr2 = [
+    {"id": 1, "b": {"c": 84}, "v": [1, 3]}
+]
+Output: [
+    {"id": 1, "b": {"c": 84}, "v": [1, 3], "y": 48}
+]
+Explanation: The two objects with id=1 are merged together. For the keys "b" and "v" the values from arr2 are used. Since the key "y" only exists in arr1, that value is taken form arr1.
+ 
+
+Constraints:
+
+arr1 and arr2 are valid JSON arrays
+Each object in arr1 and arr2 has a unique integer id key
+2 <= JSON.stringify(arr1).length <= 106
+2 <= JSON.stringify(arr2).length <= 106
+
+
+/**
+ * @param {Array} arr1
+ * @param {Array} arr2
+ * @return {Array}
+ */
+var join = function(arr1, arr2) {
+        const mp = new Map();
+
+        for(const obj of arr1){
+            mp.set(obj.id,{...obj});
+        }
+        for(const obj of arr2){
+                if(mp.has(obj.id)){
+                    mp.set(obj.id,{
+                        ...mp.get(obj.id),
+                        ...obj
+                    });
+                }
+                else{
+                    mp.set(obj.id,{...obj});
+                }
+        }
+        return Array.from(mp.values()).sort((a,b) => a.id - b.id);
+};
+
+
+🔑 Core Concepts You Learn from This JavaScript Code
+1️⃣ Using Map for Efficient Lookups
+const mp = new Map();
+
+
+Concept:
+
+Map stores key–value pairs
+
+Faster and cleaner than arrays for lookup operations
+
+Ideal when you want to merge data by a unique key (id)
+
+What you learn:
+
+Why Map is preferred over nested loops (O(n²) → O(n))
+
+2️⃣ Object Merging with the Spread Operator (...)
+{ ...obj }
+{ ...mp.get(obj.id), ...obj }
+
+
+Concept:
+
+The spread operator creates shallow copies of objects
+
+Later properties overwrite earlier ones
+
+Key Learning:
+
+{ ...A, ...B }   // B overrides A if keys match
+
+
+This is crucial in:
+
+Merging API responses
+
+Redux state updates
+
+Data normalization
+
+3️⃣ Conditional Data Merging (Join Logic)
+if (mp.has(obj.id)) {
+    // merge
+} else {
+    // insert
+}
+
+
+Concept:
+This is basically a SQL-style JOIN implemented in JavaScript.
+
+What’s happening logically:
+
+Same id → merge properties
+
+New id → insert as is
+
+➡️ This teaches real-world data joining logic used in backend & frontend apps.
+
+4️⃣ Immutability Principle
+mp.set(obj.id, { ...obj });
+
+
+Concept:
+
+You never mutate the original objects
+
+Always create new copies
+
+Why this matters:
+
+Prevents side effects
+
+Very important in React, Redux, and functional programming
+
+5️⃣ Iterating with for...of
+for (const obj of arr1)
+
+
+Concept:
+
+Clean iteration over iterable objects
+
+Preferred over forEach when logic is complex
+
+Interview Tip:
+for...of works with arrays, maps, sets — not plain objects.
+
+6️⃣ Sorting Objects by a Key
+.sort((a, b) => a.id - b.id)
+
+
+Concept:
+
+Custom comparator function
+
+Numeric sorting of objects
+
+Very common interview pattern for:
+
+Leaderboards
+
+Merged datasets
+
+Search results
+
+7️⃣ Converting Map Back to Array
+Array.from(mp.values())
+
+
+Concept:
+
+Maps don’t return arrays directly
+
+You explicitly extract values
+
+This teaches:
+
+Data structure conversions
+
+Choosing the right structure at each stage
+
+🧠 Hidden Big Picture Concept (Most Important)
+✅ Data Normalization & Joining
+
+This code simulates:
+
+Database joins
+
+API response merging
+
+Frontend state combination
+
+👉 This is not just JS syntax — it’s real-world system thinking.
+
+🏆 Interview One-Liner You Can Say
+
+“This code demonstrates efficient data joining using JavaScript Maps, object immutability, and spread-based merging with O(n) time complexity.”
+
+🚀 Where This Is Used in Real Projects
+
+Merging user data from multiple APIs
+
+Joining frontend cache data
+
+Normalizing backend responses
+
+Redux reducers
+
+LeetCode / interview problems
