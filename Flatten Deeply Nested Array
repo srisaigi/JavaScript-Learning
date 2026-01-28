@@ -1,0 +1,256 @@
+2625. Flatten Deeply Nested Array
+Solved
+Medium
+premium lock icon
+Companies
+Hint
+Given a multi-dimensional array arr and a depth n, return a flattened version of that array.
+
+A multi-dimensional array is a recursive data structure that contains integers or other multi-dimensional arrays.
+
+A flattened array is a version of that array with some or all of the sub-arrays removed and replaced with the actual elements in that sub-array. This flattening operation should only be done if the current depth of nesting is less than n. The depth of the elements in the first array are considered to be 0.
+
+Please solve it without the built-in Array.flat method.
+
+ 
+
+Example 1:
+
+Input
+arr = [1, 2, 3, [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]]
+n = 0
+Output
+[1, 2, 3, [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]]
+
+Explanation
+Passing a depth of n=0 will always result in the original array. This is because the smallest possible depth of a subarray (0) is not less than n=0. Thus, no subarray should be flattened. 
+Example 2:
+
+Input
+arr = [1, 2, 3, [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]]
+n = 1
+Output
+[1, 2, 3, 4, 5, 6, 7, 8, [9, 10, 11], 12, 13, 14, 15]
+
+Explanation
+The subarrays starting with 4, 7, and 13 are all flattened. This is because their depth of 0 is less than 1. However [9, 10, 11] remains unflattened because its depth is 1.
+Example 3:
+
+Input
+arr = [[1, 2, 3], [4, 5, 6], [7, 8, [9, 10, 11], 12], [13, 14, 15]]
+n = 2
+Output
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+
+Explanation
+The maximum depth of any subarray is 1. Thus, all of them are flattened.
+ 
+
+Constraints:
+
+0 <= count of numbers in arr <= 105
+0 <= count of subarrays in arr <= 105
+
+
+/**
+ * @param {Array} arr
+ * @param {number} depth
+ * @return {Array}
+ */
+var flat = function (arr, n) {
+        let result = [];
+        function dfs(curr,depth){
+        for(let element of curr){
+            if(Array.isArray(element) && depth < n){
+                dfs(element,depth+1);
+            }
+            else{
+                result.push(element);
+            }
+        }
+        }
+        dfs(arr,0);
+        return result;
+};
+
+
+Great question 👍
+This is actually a very important JavaScript snippet, and it teaches multiple core JS + DSA concepts at once.
+I’ll explain what concepts you learn from this code, not just what the code does.
+
+🔍 What This Code Does (in one line)
+
+It flattens a nested array up to a given depth using recursion.
+
+This is similar to Array.prototype.flat(n), but you implemented it manually.
+
+🧠 CORE CONCEPTS YOU LEARN FROM THIS CODE (VERY IMPORTANT)
+1️⃣ Recursion (Most Important Concept)
+What you learn:
+
+A function calling itself
+
+Breaking a problem into smaller subproblems
+
+Using parameters (depth) to control recursion
+
+function dfs(curr, depth) {
+    ...
+    dfs(element, depth + 1);
+}
+
+Why it matters:
+
+Used in trees, graphs, JSON parsing, DOM traversal
+
+Very common in interviews
+
+2️⃣ Depth-Limited Recursion
+if (Array.isArray(element) && depth < n)
+
+What you learn:
+
+How to stop recursion at a certain depth
+
+Controlling recursion using conditions
+
+This is the same idea used in:
+
+Tree traversals
+
+Graph depth limits
+
+JSON flattening
+
+3️⃣ DFS (Depth-First Search) Pattern
+
+Even though this is an array problem, the logic is DFS:
+
+Go as deep as possible first
+
+Then come back (backtracking)
+
+dfs(element, depth + 1);
+
+Why this matters:
+
+DFS is used in:
+
+Trees
+
+Graphs
+
+Backtracking problems
+
+Nested data structures
+
+4️⃣ Working with Nested Data Structures
+Array.isArray(element)
+
+What you learn:
+
+How to detect arrays dynamically
+
+Handling unknown depth structures
+
+This is extremely useful in:
+
+API responses
+
+JSON data
+
+Frontend state management
+
+5️⃣ Closure (Very Important JS Concept)
+let result = [];
+function dfs(...) {
+    result.push(...);
+}
+
+What you learn:
+
+Inner function (dfs) remembers variables from outer scope (result)
+
+This is called a closure
+
+Why it matters:
+
+React hooks
+
+Async JS
+
+Event handlers
+
+Interview favorite topic
+
+6️⃣ Separation of Logic
+
+flat() → public function
+
+dfs() → helper function
+
+This teaches:
+
+Clean code structure
+
+Encapsulation
+
+Reusability
+
+7️⃣ Control Flow with for...of
+for (let element of curr)
+
+What you learn:
+
+Iterating over arrays cleanly
+
+Avoiding index-based loops when not needed
+
+8️⃣ Understanding Built-in vs Custom Implementation
+
+This code is a custom version of:
+
+arr.flat(n)
+
+Why this matters:
+
+Interviews often ask:
+
+“Implement Array.flat() without using built-in functions”
+
+You now understand:
+
+How built-in JS methods work internally
+
+How recursion powers many JS utilities
+
+🧾 Interview-Worthy Summary
+
+“This code teaches recursion, depth-limited DFS, closures, and handling nested data structures in JavaScript.”
+
+🌱 Real-World Usage
+
+This exact concept is used in:
+
+Flattening API responses
+
+Parsing JSON
+
+Form data processing
+
+Frontend state normalization
+
+⭐ Final Takeaway
+
+From this one code snippet, you learned:
+✅ Recursion
+✅ DFS
+✅ Closure
+✅ Depth control
+✅ Nested data handling
+✅ Clean function design
+
+That’s A LOT from a small piece of code 💯
+maxDepth <= 1000
+-1000 <= each number <= 1000
+0 <= n <= 1000
