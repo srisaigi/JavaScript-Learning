@@ -1,0 +1,307 @@
+2705. Compact Object
+Solved
+Medium
+premium lock icon
+Companies
+Given an object or array obj, return a compact object.
+
+A compact object is the same as the original object, except with keys containing falsy values removed. This operation applies to the object and any nested objects. Arrays are considered objects where the indices are keys. A value is considered falsy when Boolean(value) returns false.
+
+You may assume the obj is the output of JSON.parse. In other words, it is valid JSON.
+
+ 
+
+Example 1:
+
+Input: obj = [null, 0, false, 1]
+Output: [1]
+Explanation: All falsy values have been removed from the array.
+Example 2:
+
+Input: obj = {"a": null, "b": [false, 1]}
+Output: {"b": [1]}
+Explanation: obj["a"] and obj["b"][0] had falsy values and were removed.
+Example 3:
+
+Input: obj = [null, 0, 5, [0], [false, 16]]
+Output: [5, [], [16]]
+Explanation: obj[0], obj[1], obj[3][0], and obj[4][0] were falsy and removed.
+ 
+
+Constraints:
+
+obj is a valid JSON object
+
+
+
+/**
+ * @param {Object|Array} obj
+ * @return {Object|Array}
+ */
+var compactObject = function(obj) {
+        if(!obj){
+            return obj;
+        }
+        if(Array.isArray(obj)){
+            return obj
+            .map(item => compactObject(item))
+            .filter(Boolean);
+        }
+        if(typeof obj == "object"){
+            let result = {}
+            for(let key in obj){
+                let value = compactObject(obj[key]);
+                if(value){
+                    result[key] = value;
+                }
+            }
+            return result;
+        }
+        return obj;
+};
+
+
+Great question 👍
+This is actually a very rich JavaScript snippet. From this single code, you can learn multiple important JS + DSA + interview-level concepts.
+
+I’ll break it down concept-wise, not just line-by-line.
+
+🔑 Core Concept Learned from This Code
+1. Recursion (MOST IMPORTANT CONCEPT)
+
+This function calls itself:
+
+compactObject(item)
+compactObject(obj[key])
+
+
+📌 What you learn
+
+How a function processes nested data structures
+
+How recursion works for:
+
+Arrays inside objects
+
+Objects inside arrays
+
+How to define base cases:
+
+if(!obj) return obj;
+
+
+🧠 Interview takeaway:
+
+Recursion is ideal when the structure is unknown depth (nested objects/arrays).
+
+🧩 2. Deep Traversal of Objects & Arrays
+
+The function deeply traverses:
+
+Nested arrays
+
+Nested objects
+
+Mixed structures
+
+📌 Example input:
+
+{
+  a: null,
+  b: [1, false, 2, "", [null, 3]],
+  c: { d: 0, e: 4 }
+}
+
+
+📌 Output:
+
+{
+  b: [1, 2, [3]],
+  c: { e: 4 }
+}
+
+
+🧠 Concept:
+
+Deep cleaning / deep transformation
+
+Very common in:
+
+Data normalization
+
+API response cleaning
+
+Backend validation
+
+Redux / state sanitization
+
+🔄 3. Truthy & Falsy Values in JavaScript
+
+This line is 🔥:
+
+.filter(Boolean);
+
+What is happening?
+
+JavaScript falsy values:
+
+false, 0, "", null, undefined, NaN
+
+
+Boolean(value) converts value to true or false
+
+📌 So this removes:
+
+null
+
+false
+
+0
+
+""
+
+undefined
+
+🧠 Interview trick:
+
+.filter(Boolean) is a clean idiomatic JS pattern.
+
+📦 4. Type Checking & Control Flow
+
+This part:
+
+Array.isArray(obj)
+typeof obj === "object"
+
+
+Concepts learned:
+
+Difference between arrays and objects
+
+Safe type checking
+
+Branching logic based on data type
+
+🧠 Important interview fact:
+
+typeof [] === "object"   // true
+
+
+So we must use Array.isArray().
+
+🧹 5. Data Sanitization / Compaction
+
+The main idea of this function:
+
+Remove all falsy values from a deeply nested object or array.
+
+This is called:
+
+Compaction
+
+Data cleaning
+
+Normalization
+
+Used in:
+
+API payload cleanup
+
+Form submission
+
+Backend request validation
+
+Redux state cleanup
+
+🧠 6. Immutability (Functional Thinking)
+
+Notice:
+
+let result = {}
+
+
+and
+
+.map(...)
+.filter(...)
+
+
+The original object/array is not mutated.
+
+📌 Concept:
+
+Functional programming
+
+Immutable transformations
+
+🧠 This is extremely important for:
+
+React
+
+Redux
+
+State management
+
+🔁 7. Higher-Order Functions
+
+Used here:
+
+map()
+filter()
+
+
+Concepts:
+
+Functions operating on other functions
+
+Declarative programming
+
+Cleaner logic than loops
+
+🧪 8. Edge Case Handling
+
+This line:
+
+if(!obj){
+    return obj;
+}
+
+
+Handles:
+
+null
+
+undefined
+
+false
+
+0
+
+📌 Prevents runtime errors like:
+
+Cannot read properties of null
+
+🧠 BIG PICTURE (What This Code Teaches You)
+Concept	Level
+Recursion	⭐⭐⭐⭐⭐
+Deep traversal	⭐⭐⭐⭐
+Truthy/Falsy logic	⭐⭐⭐⭐
+Functional programming	⭐⭐⭐⭐
+Data cleaning	⭐⭐⭐⭐
+Interview readiness	⭐⭐⭐⭐
+🧠 One-Line Interview Explanation
+
+“This function recursively traverses nested objects and arrays, removing all falsy values while preserving structure using functional and immutable patterns.”
+
+📌 Where This Appears in Interviews
+
+JavaScript machine coding rounds
+
+React / Redux internals
+
+API data normalization
+
+Frontend + Backend interviews
+
+Polyfill-style questions
+2 <= JSON.stringify(obj).length <= 106
