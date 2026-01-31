@@ -1,0 +1,266 @@
+2695. Array Wrapper
+Solved
+Easy
+premium lock icon
+Companies
+Create a class ArrayWrapper that accepts an array of integers in its constructor. This class should have two features:
+
+When two instances of this class are added together with the + operator, the resulting value is the sum of all the elements in both arrays.
+When the String() function is called on the instance, it will return a comma separated string surrounded by brackets. For example, [1,2,3].
+ 
+
+Example 1:
+
+Input: nums = [[1,2],[3,4]], operation = "Add"
+Output: 10
+Explanation:
+const obj1 = new ArrayWrapper([1,2]);
+const obj2 = new ArrayWrapper([3,4]);
+obj1 + obj2; // 10
+Example 2:
+
+Input: nums = [[23,98,42,70]], operation = "String"
+Output: "[23,98,42,70]"
+Explanation:
+const obj = new ArrayWrapper([23,98,42,70]);
+String(obj); // "[23,98,42,70]"
+Example 3:
+
+Input: nums = [[],[]], operation = "Add"
+Output: 0
+Explanation:
+const obj1 = new ArrayWrapper([]);
+const obj2 = new ArrayWrapper([]);
+obj1 + obj2; // 0
+ 
+
+Constraints:
+
+0 <= nums.length <= 1000
+0 <= nums[i] <= 1000
+
+
+/**
+ * @param {number[]} nums
+ * @return {void}
+ */
+var ArrayWrapper = function(nums) {
+        this.nums = nums;
+};
+
+/**
+ * @return {number}
+ */
+ArrayWrapper.prototype.valueOf = function() {
+        return this.nums.reduce((sum,num) => sum + num ,0);
+}
+
+/**
+ * @return {string}
+ */
+ArrayWrapper.prototype.toString = function() {
+        return "[" + this.nums.join(",") + "]";
+}
+
+/**
+ * const obj1 = new ArrayWrapper([1,2]);
+ * const obj2 = new ArrayWrapper([3,4]);
+ * obj1 + obj2; // 10
+ * String(obj1); // "[1,2]"
+ * String(obj2); // "[3,4]"
+ */
+
+This is an excellent JavaScript question, because this code teaches some deep and very important JS concepts that many developers use without fully understanding.
+
+I’ll explain what concepts you learn, why this works, and how JavaScript thinks internally, all in simple words.
+
+🧠 BIG CONCEPTS YOU LEARN FROM THIS CODE
+
+This single example teaches 5 core JavaScript concepts:
+
+1️⃣ Object coercion (Type Conversion)
+2️⃣ valueOf() method (numeric conversion)
+3️⃣ toString() method (string conversion)
+4️⃣ How operators like + work with objects
+5️⃣ Prototype-based method overriding
+
+Let’s go step by step.
+
+1️⃣ JavaScript Automatically Converts Objects (Coercion)
+
+JavaScript is dynamically typed, which means:
+
+👉 When you use an object in a context where a number or string is expected,
+👉 JavaScript tries to convert the object automatically.
+
+This process is called:
+
+🔥 Type Coercion
+
+Example from your code:
+
+obj1 + obj2
+
+
+Here:
+
+obj1 and obj2 are objects
+
++ operator expects numbers or strings
+
+So JavaScript asks:
+
+“How do I convert these objects?”
+
+2️⃣ valueOf() – How Objects Become Numbers
+🔑 Rule:
+
+When JavaScript needs a number, it calls:
+
+object.valueOf()
+
+Your implementation:
+ArrayWrapper.prototype.valueOf = function() {
+    return this.nums.reduce((sum, num) => sum + num, 0);
+}
+
+
+So when this runs:
+
+obj1 + obj2
+
+
+Internally JavaScript does:
+
+obj1.valueOf() + obj2.valueOf()
+
+
+Which becomes:
+
+3 + 7 = 10
+
+
+✅ That’s why:
+
+obj1 + obj2; // 10
+
+
+💡 Key takeaway
+You are controlling how an object behaves in numeric operations.
+
+3️⃣ toString() – How Objects Become Strings
+🔑 Rule:
+
+When JavaScript needs a string, it calls:
+
+object.toString()
+
+
+Your implementation:
+
+ArrayWrapper.prototype.toString = function() {
+    return "[" + this.nums.join(",") + "]";
+}
+
+
+So when you do:
+
+String(obj1);
+
+
+JavaScript does:
+
+obj1.toString();
+
+
+Result:
+
+"[1,2]"
+
+
+✅ That’s why:
+
+String(obj1); // "[1,2]"
+
+4️⃣ Operator + is SMART (and Confusing 😄)
+
+The + operator behaves differently depending on context:
+
+Situation	Behavior
+number + number	Addition
+string + string	Concatenation
+object + object	Try valueOf()
+string + object	Use toString()
+
+In your case:
+
+obj1 + obj2
+
+
+Since both objects can become numbers (valueOf() exists),
+JavaScript performs numeric addition.
+
+🔥 If valueOf() was missing, JS would fall back to toString()!
+
+5️⃣ Prototype-Based Programming (Very Important)
+
+You added methods using:
+
+ArrayWrapper.prototype.valueOf = function() { ... }
+ArrayWrapper.prototype.toString = function() { ... }
+
+
+This means:
+
+All instances of ArrayWrapper
+
+Share the same behavior
+
+Memory-efficient
+
+Classic JavaScript OOP
+
+💡 This is true JavaScript inheritance, not class-based like Java/C++.
+
+🔥 WHAT THIS CODE REALLY TEACHES (INTERVIEW GOLD)
+
+You learned how to:
+
+✅ Override default object behavior
+✅ Customize how objects behave in expressions
+✅ Understand JavaScript internals
+✅ Write elegant, idiomatic JS
+✅ Control implicit conversions (advanced skill)
+
+🧪 Mental Model (Simple Words)
+
+Think of JavaScript saying:
+
+“Hey object, I need a number.”
+→ Call valueOf()
+
+“Hey object, I need a string.”
+→ Call toString()
+
+And you decide what those mean.
+
+🚀 REAL-WORLD USE CASES
+
+This concept is used in:
+
+Custom numeric objects
+
+Libraries (Moment.js, BigNumber.js)
+
+DSLs (Domain Specific Languages)
+
+Smart wrappers & utilities
+
+📌 FINAL SUMMARY
+
+✨ Main Concept Learned
+
+JavaScript allows objects to define how they behave when treated as numbers or strings using valueOf() and toString().
+
+This is advanced JavaScript and a great interview talking point.
+Note: nums is the array passed to the constructor
